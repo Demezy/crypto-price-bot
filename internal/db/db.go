@@ -26,11 +26,11 @@ func ConnectDB(host, user, password, port string) (db types.DB, err error) {
 	return db, nil
 }
 
-func MigrateDB(db types.DB) {
-	db.AutoMigrate(&models.User{})
+func MigrateDB(db types.DB) error {
+	return db.AutoMigrate(&models.User{})
 }
 
-func ConnectDBFromEnv() (db types.DB, err error) {
+func AutoDBSetup() (db types.DB, err error) {
 	host := os.Getenv("POSTGRES_HOST")
 	user := os.Getenv("POSTGRES_USER")
 	password := os.Getenv("POSTGRES_PASSWORD")
@@ -38,6 +38,9 @@ func ConnectDBFromEnv() (db types.DB, err error) {
 	if host == "" || port == "" {
 		return nil, errors.New("Undefined database host or port")
 	}
-
-	return ConnectDB(host, user, password, port)
+	db, err = ConnectDB(host, user, password, port)
+	if err != nil {
+		return nil, err
+	}
+	return db, MigrateDB(db)
 }
