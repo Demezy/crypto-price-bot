@@ -19,7 +19,7 @@ func (u User) String() string {
 		u.ID,
 		u.TelegramId,
 		u.QueriyNumber,
-		u.LastQuery.Format(consts.TimeFormat),
-		u.FirstQuery.Format(consts.TimeFormat),
+		u.LastQuery.Format(consts.DateAndTime),
+		u.FirstQuery.Format(consts.DateAndTime),
 	)
 }

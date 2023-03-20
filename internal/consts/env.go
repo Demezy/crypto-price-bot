@@ -1,9 +1,9 @@
 package consts
 
-const(
-  TgToken="TG_TOKEN"
-  PostgresHost="POSTGRES_HOST"
-  PostgresPort="POSTGRES_USER"
-  PostgresUser="POSTGRES_PASSWORD"
-  PostgresPass="POSTGRES_PORT"
+const (
+	TgToken      = "TG_TOKEN"
+	PostgresHost = "POSTGRES_HOST"
+	PostgresUser = "POSTGRES_USER"
+	PostgresPass = "POSTGRES_PASSWORD"
+	PostgresPort = "POSTGRES_PORT"
 )
