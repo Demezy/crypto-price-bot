@@ -7,6 +7,7 @@ import (
 
 	"gopkg.in/telebot.v3"
 
+	"simple-go-telegram-bot/internal/consts"
 	"simple-go-telegram-bot/internal/db"
 	"simple-go-telegram-bot/internal/handlers"
 	"simple-go-telegram-bot/internal/types"
@@ -31,7 +32,7 @@ func StartBot(token string, db types.DB) {
 }
 
 func main() {
-	token := os.Getenv("TG_TOKEN")
+	token := os.Getenv(consts.TgToken)
   db, err := database.AutoDBSetup()
   if err!=nil{
     log.Fatal(err)

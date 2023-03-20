@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"simple-go-telegram-bot/internal/consts"
 	models "simple-go-telegram-bot/internal/db_models"
 	"simple-go-telegram-bot/internal/types"
 
@@ -31,10 +32,10 @@ func MigrateDB(db types.DB) error {
 }
 
 func AutoDBSetup() (db types.DB, err error) {
-	host := os.Getenv("POSTGRES_HOST")
-	user := os.Getenv("POSTGRES_USER")
-	password := os.Getenv("POSTGRES_PASSWORD")
-	port := os.Getenv("POSTGRES_PORT")
+	host := os.Getenv(consts.PostgresHost)
+	user := os.Getenv(consts.PostgresUser)
+	password := os.Getenv(consts.PostgresPass)
+	port := os.Getenv(consts.PostgresPort)
 	if host == "" || port == "" {
 		return nil, errors.New("Undefined database host or port")
 	}
