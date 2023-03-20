@@ -12,11 +12,18 @@ import (
 	"gopkg.in/telebot.v3"
 )
 
+func SetupHandlers(bot *telebot.Bot, db types.DB) {
+	setInfoHandler(bot, db)
+	queryInfoHandler(bot, db)
+	setStartHandler(bot)
+	setEchoHandler(bot)
+}
+
 func setStartHandler(bot *telebot.Bot) {
 	bot.Handle(
 		consts.CommandStart,
 		func(ctx telebot.Context) error {
-			ctx.Send("Welcome!")
+			ctx.Send(consts.CommandStartReply)
 			return nil
 		})
 }
@@ -25,12 +32,12 @@ func queryInfoHandler(bot *telebot.Bot, db types.DB) {
 		consts.CommandQuery,
 		func(ctx telebot.Context) error {
 			if len(ctx.Args()) != 1 {
-				ctx.Send("Undefined number of arguments")
+				ctx.Send(consts.CommandQueryErrorArg)
 				return errors.New("Sent wrong number of arguments")
 			}
 			price, err := cryptocurrency.GetCurrencyPrice(ctx.Args()[0])
 			if err != nil {
-				ctx.Send("Provide valid cryptocurrency name")
+				ctx.Send(consts.CommandQueryErrorCurrency)
 				return errors.New("Invalid currency name")
 			}
 			defer api.TrackUserQuery(db, fmt.Sprint(ctx.Sender().ID))
@@ -49,7 +56,7 @@ func setInfoHandler(bot *telebot.Bot, db types.DB) {
 		func(ctx telebot.Context) error {
 			user, err := api.GetUser(db, fmt.Sprint(ctx.Sender().ID))
 			if err != nil {
-				ctx.Send("You have no statistics yet")
+				ctx.Send(consts.CommandInfoNoStat)
 				return nil
 			}
 			ctx.Send(user.String())
@@ -66,11 +73,4 @@ func setEchoHandler(bot *telebot.Bot) {
 			return nil
 		},
 	)
-}
-
-func SetupHandlers(bot *telebot.Bot, db types.DB) {
-	setInfoHandler(bot, db)
-	queryInfoHandler(bot, db)
-	setStartHandler(bot)
-	setEchoHandler(bot)
 }
