@@ -3,12 +3,11 @@ package main
 import (
 	"log"
 	"os"
-	"time"
 
 	"gopkg.in/telebot.v3"
 
 	"simple-go-telegram-bot/internal/consts"
-	"simple-go-telegram-bot/internal/db"
+	database "simple-go-telegram-bot/internal/db"
 	"simple-go-telegram-bot/internal/handlers"
 	"simple-go-telegram-bot/internal/types"
 )
@@ -17,7 +16,7 @@ func StartBot(token string, db types.DB) {
 	// configure bot
 	pref := telebot.Settings{
 		Token:  token,
-		Poller: &telebot.LongPoller{Timeout: 400 * time.Millisecond},
+		Poller: &telebot.LongPoller{Timeout: consts.BotPollingTimeout},
 		OnError: func(err error, ctx telebot.Context) {
 			log.Println(err)
 		},
@@ -33,9 +32,9 @@ func StartBot(token string, db types.DB) {
 
 func main() {
 	token := os.Getenv(consts.TgToken)
-  db, err := database.AutoDBSetup()
-  if err!=nil{
-    log.Fatal(err)
-  }
+	db, err := database.AutoDBSetup()
+	if err != nil {
+		log.Fatal(err)
+	}
 	StartBot(token, db)
 }
