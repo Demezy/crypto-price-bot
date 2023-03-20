@@ -59,7 +59,7 @@ func setInfoHandler(bot *telebot.Bot, db types.DB) {
 				ctx.Send(consts.CommandInfoNoStat)
 				return nil
 			}
-			ctx.Send(user.String())
+			ctx.Send(displayUserStat(user))
 			return nil
 		})
 }
