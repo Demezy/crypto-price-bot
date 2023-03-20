@@ -1,15 +1,12 @@
-package main
+package bot
 
 import (
 	"log"
-	"os"
-
-	"gopkg.in/telebot.v3"
-
 	"simple-go-telegram-bot/internal/consts"
-	database "simple-go-telegram-bot/internal/db"
 	"simple-go-telegram-bot/internal/handlers"
 	"simple-go-telegram-bot/internal/types"
+
+	"gopkg.in/telebot.v3"
 )
 
 func StartBot(token string, db types.DB) {
@@ -28,13 +25,4 @@ func StartBot(token string, db types.DB) {
 
 	handlers.SetupHandlers(bot, db)
 	bot.Start()
-}
-
-func main() {
-	token := os.Getenv(consts.TgToken)
-	db, err := database.AutoDBSetup()
-	if err != nil {
-		log.Fatal(err)
-	}
-	StartBot(token, db)
 }
