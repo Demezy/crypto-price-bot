@@ -1,6 +1,15 @@
-version: '3'
+version: "3"
 
 services:
+  bot:
+    build: .
+    restart: always
+    env_file:
+      - ./env/bot.env
+      - ./env/posgres.env
+    environment:
+    - POSTGRES_HOST=db
+
   db:
     image: postgres
     restart: always
@@ -8,6 +17,8 @@ services:
       - ./env/posgres.env
 
   adminer:
+    profiles:
+      - "debug"
     image: adminer
     restart: always
     ports:
